@@ -25,9 +25,12 @@ if extra_inc.length() > 0
 endif
 
 
+vulkan_dep = dependency('vulkan', required: false)
+
 imgui_lib = static_library('imgui',
   imgui_files,
   include_directories : imgui_inc_dirs,
+  dependencies        : [vulkan_dep],
   cpp_args            : ['-DIMGUI_USER_CONFIG="imconfig.h"'],
   override_options    : ['cpp_std=c++17']
 )
