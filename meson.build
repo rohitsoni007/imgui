@@ -12,17 +12,7 @@ imgui_files = files(
 
 imgui_inc = declare_dependency(include_directories: include_directories('.', 'backends'))
 
-# Allow parent project to pass extra include directories (e.g. for Vulkan)
-extra_inc_string = get_option('extra_inc')
-extra_inc = []
-if extra_inc_string != ''
-  extra_inc = extra_inc_string.split(',')
-endif
-
 imgui_inc_dirs = include_directories('.', 'backends')
-if extra_inc.length() > 0
-  imgui_inc_dirs = include_directories('.', 'backends', extra_inc)
-endif
 
 
 vulkan_dep = dependency('vulkan', required: false)
