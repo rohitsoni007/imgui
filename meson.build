@@ -10,16 +10,29 @@ imgui_files = files(
   'backends/imgui_impl_win32.cpp'
 )
 
-imgui_inc = include_directories('.', 'backends')
+imgui_inc = declare_dependency(include_directories: include_directories('.', 'backends'))
+
+# Allow parent project to pass extra include directories (e.g. for Vulkan)
+extra_inc_string = get_option('extra_inc')
+extra_inc = []
+if extra_inc_string != ''
+  extra_inc = extra_inc_string.split(',')
+endif
+
+imgui_inc_dirs = include_directories('.', 'backends')
+if extra_inc.length() > 0
+  imgui_inc_dirs = include_directories('.', 'backends', extra_inc)
+endif
+
 
 imgui_lib = static_library('imgui',
   imgui_files,
-  include_directories : imgui_inc,
+  include_directories : imgui_inc_dirs,
   cpp_args            : ['-DIMGUI_USER_CONFIG="imconfig.h"'],
   override_options    : ['cpp_std=c++17']
 )
 
 imgui_dep = declare_dependency(
   link_with           : imgui_lib,
-  include_directories : imgui_inc
+  include_directories : imgui_inc_dirs
 )

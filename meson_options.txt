@@ -1,0 +1,1 @@
+option('extra_inc', type: 'string', value: '', description: 'Extra include directories for the ImGui subproject (comma-separated).')
